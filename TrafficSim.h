@@ -4,7 +4,7 @@ simulation platform.
 
 Copyright (c) 2015-2017 Mu Yang
 This file is additional part of the Augmented Reality Sandbox (SARndbox)
-developed by Oli
+developed by Oliver Kreylos
 The Augmented Reality Sandbox is free software; you can redistribute it
 and/or modify it under the terms of the GNU General Public License as
 published by the Free Software Foundation; either version 2 of the
