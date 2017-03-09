@@ -1,28 +1,10 @@
 /***********************************************************************
-WaterTable2 - Class to simulate water flowing over a surface using
-improved water flow simulation based on Saint-Venant system of partial
-differenctial equations.
-Copyright (c) 2012-2015 Oliver Kreylos
-
-This file is part of the Augmented Reality Sandbox (SARndbox).
-
-The Augmented Reality Sandbox is free software; you can redistribute it
-and/or modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of the
-License, or (at your option) any later version.
-
-The Augmented Reality Sandbox is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.
-
-You should have received a copy of the GNU General Public License along
-with the Augmented Reality Sandbox; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+FloodTable - Class to simulate flood flow over a surface based on 
+Saint-Venant system of partial differenctial equations.
 ***********************************************************************/
 
-#ifndef WATERTABLE2_INCLUDED
-#define WATERTABLE2_INCLUDED
+#ifndef FLOODTABLE_INCLUDED
+#define FLOODTABLE_INCLUDED
 
 #include <vector>
 #include <Misc/FunctionCalls.h>
@@ -109,8 +91,8 @@ class WaterTable2:public GLObject
 	
 	/* Constructors and destructors: */
 	public:
-	WaterTable2(GLsizei width,GLsizei height,const Plane& basePlane,const Point basePlaneCorners[4]); // Creates a water table of the given size in pixels, for the base plane quadrilateral defined by the plane equation and four corner points
-	virtual ~WaterTable2(void);
+	FloodTable(GLsizei width,GLsizei height,const Plane& basePlane,const Point basePlaneCorners[4]); // Creates a water table of the given size in pixels, for the base plane quadrilateral defined by the plane equation and four corner points
+	virtual ~FloodTable(void);
 	
 	/* Methods from GLObject: */
 	virtual void initContext(GLContextData& contextData) const;
