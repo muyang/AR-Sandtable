@@ -1,27 +1,9 @@
 /***********************************************************************
-WaterTable2 - Class to simulate water flowing over a surface using
-improved water flow simulation based on Saint-Venant system of partial
-differenctial equations.
-Copyright (c) 2012-2015 Oliver Kreylos
-
-This file is part of the Augmented Reality Sandbox (SARndbox).
-
-The Augmented Reality Sandbox is free software; you can redistribute it
-and/or modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation; either version 2 of the
-License, or (at your option) any later version.
-
-The Augmented Reality Sandbox is distributed in the hope that it will be
-useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.
-
-You should have received a copy of the GNU General Public License along
-with the Augmented Reality Sandbox; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+Flood Table - Class to simulate flood flow over a surface using
+based on Saint-Venant system of partial differenctial equations.
 ***********************************************************************/
 
-#include "WaterTable2.h"
+#include "FloodTable.h"
 
 #include <stdarg.h>
 #include <string>
@@ -97,10 +79,10 @@ GLhandleARB compileFragmentShader(const char* shaderFileName)
 }
 
 /**************************************
-Methods of class WaterTable2::DataItem:
+Methods of class FloodTable::DataItem:
 **************************************/
 
-WaterTable2::DataItem::DataItem(void)
+FloodTable::DataItem::DataItem(void)
 	:quantityTextureObject(0),derivativeTextureObject(0),quantityStarTextureObject(0),waterTextureObject(0),
 	 bathymetryFramebufferObject(0),derivativeFramebufferObject(0),maxStepSizeFramebufferObject(0),integrationFramebufferObject(0),waterFramebufferObject(0),
 	 bathymetryShader(0),derivativeShader(0),maxStepSizeShader(0),boundaryShader(0),eulerStepShader(0),rungeKuttaStepShader(0),waterAddShader(0),waterShader(0)
@@ -122,7 +104,7 @@ WaterTable2::DataItem::DataItem(void)
 	supported=supported&&GLARBVertexShader::isSupported();
 	supported=supported&&GLEXTFramebufferObject::isSupported();
 	if(!supported)
-		Misc::throwStdErr("WaterTable2: Required functionality not supported by local OpenGL");
+		Misc::throwStdErr("FloodTable: Required functionality not supported by local OpenGL");
 	GLARBDrawBuffers::initExtension();
 	GLARBFragmentShader::initExtension();
 	GLARBMultitexture::initExtension();
@@ -134,7 +116,7 @@ WaterTable2::DataItem::DataItem(void)
 	GLEXTFramebufferObject::initExtension();
 	}
 
-WaterTable2::DataItem::~DataItem(void)
+FloodTable::DataItem::~DataItem(void)
 	{
 	/* Delete all allocated shaders, textures, and buffers: */
 	glDeleteTextures(2,bathymetryTextureObjects);
@@ -162,7 +144,7 @@ WaterTable2::DataItem::~DataItem(void)
 Static elements of class WaterTable2:
 ************************************/
 
-const char* WaterTable2::vertexShaderSource="\
+const char* FloodTable::vertexShaderSource="\
 	void main()\n\
 		{\n\
 		/* Use standard vertex position: */\n\
@@ -173,7 +155,7 @@ const char* WaterTable2::vertexShaderSource="\
 Methods of class WaterTable2:
 ****************************/
 
-GLfloat WaterTable2::calcDerivative(WaterTable2::DataItem* dataItem,GLuint quantityTextureObject,bool calcMaxStepSize) const
+GLfloat FloodTable::calcDerivative(FloodTable::DataItem* dataItem,GLuint quantityTextureObject,bool calcMaxStepSize) const
 	{
 	/*********************************************************************
 	Step 1: Calculate partial spatial derivatives, partial fluxes across
@@ -267,7 +249,7 @@ GLfloat WaterTable2::calcDerivative(WaterTable2::DataItem* dataItem,GLuint quant
 	return stepSize;
 	}
 
-WaterTable2::WaterTable2(GLsizei width,GLsizei height,const Plane& basePlane,const Point basePlaneCorners[4])
+FloodTable::FloodTable(GLsizei width,GLsizei height,const Plane& basePlane,const Point basePlaneCorners[4])
 	{
 	/* Initialize the water table size: */
 	size[0]=width;
@@ -328,7 +310,7 @@ WaterTable2::WaterTable2(GLsizei width,GLsizei height,const Plane& basePlane,con
 	waterDeposit=0.0f;
 	}
 
-WaterTable2::~WaterTable2(void)
+FloodTable::~FloodTable(void)
 	{
 	}
 
@@ -1060,7 +1042,7 @@ GLfloat WaterTable2::runSimulationStep(GLContextData& contextData) const
 	return stepSize;
 	}
 
-void WaterTable2::bindBathymetryTexture(GLContextData& contextData) const
+void FloodTable::bindBathymetryTexture(GLContextData& contextData) const
 	{
 	/* Get the data item: */
 	DataItem* dataItem=contextData.retrieveDataItem<DataItem>(this);
@@ -1069,7 +1051,7 @@ void WaterTable2::bindBathymetryTexture(GLContextData& contextData) const
 	glBindTexture(GL_TEXTURE_RECTANGLE_ARB,dataItem->bathymetryTextureObjects[dataItem->currentBathymetry]);
 	}
 
-void WaterTable2::bindQuantityTexture(GLContextData& contextData) const
+void FloodTable::bindQuantityTexture(GLContextData& contextData) const
 	{
 	/* Get the data item: */
 	DataItem* dataItem=contextData.retrieveDataItem<DataItem>(this);
